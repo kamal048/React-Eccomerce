@@ -1,29 +1,34 @@
 import './checkout-header.css'
 import './CheckoutPage.css'
+import {Link} from 'react-router'
+import CheckoutLockIcon from '../assets/images/icons/checkout-lock-icon.png';
+import Logo from '../assets/images/logo.png';
+import MobileLogo from '../assets/images/mobile-logo.png';
 export function CheckoutPage() {
   return (
     <>
 
     <title>Checkout</title>
+    <link rel="icon" type="image/svg+xml" href="cart-favicon.png" />
       <div className="checkout-header">
         <div className="header-content">
           <div className="checkout-header-left-section">
-            <a href="/">
-              <img className="logo" src="images/logo.png" />
-              <img className="mobile-logo" src="images/mobile-logo.png" />
-            </a>
+            <Link to="/">
+              <img className="logo" src={Logo} />
+              <img className="mobile-logo" src={MobileLogo} />
+            </Link>
           </div>
 
           <div className="checkout-header-middle-section">
             Checkout (
-            <a className="return-to-home-link" href="/">
+            <Link className="return-to-home-link" to="/">
               3 items
-            </a>
+            </Link>
             )
           </div>
 
           <div className="checkout-header-right-section">
-            <img src="images/icons/checkout-lock-icon.png" />
+            <img src={CheckoutLockIcon} />
           </div>
         </div>
       </div>
