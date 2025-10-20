@@ -3,18 +3,14 @@ import "./HomePage.css";
 import { Header } from "../components/Header";
 import CheckmarkIcon from "../assets/images/icons/checkmark.png";
 import { useState,useEffect } from "react";
+import { formatMoney } from '../utils/money';
 
-export function HomePage() {
+export function HomePage({cart}) {
   const [products,setProducts]=useState([])
-  const [cart,setCart]=useState([])
   useEffect(()=>{
-    axios.get("http://localhost:3000/api/products").then((response) => {
+    axios.get("/api/products").then((response) => {
       setProducts(response.data);
-    });
-
-    axios.get("http://localhost:3000/api/cart-items").then((response) => {
-      setCart(response.data);
-    });
+    })
   },[])
   return (
     <>
@@ -26,7 +22,7 @@ export function HomePage() {
         <div className="products-grid">
           {products.map((product) => {
             return (
-              <div key={product.key} className="product-container">
+              <div key={product.id} className="product-container">
                 <div className="product-image-container">
                   <img className="product-image" src={product.image} />
                 </div>
@@ -48,7 +44,7 @@ export function HomePage() {
                 </div>
 
                 <div className="product-price">
-                  ${(product.priceCents / 100).toFixed(2)}
+                  {formatMoney(product.priceCents)}
                 </div>
 
                 <div className="product-quantity-container">
