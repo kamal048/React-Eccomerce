@@ -7,6 +7,7 @@ import {useState,useEffect} from 'react'
 import axios from 'axios'
 import './App.css'
 
+window.axios = axios;
 function App() {
   const [cart,setCart]=useState([])
   const loadCart=async()=>{
@@ -19,8 +20,8 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<HomePage cart={cart} loadCart={loadCart}/>}/>
-      <Route path='checkout' element={<CheckoutPage cart={cart}/>}/>
-      <Route path='orders' element={<OrdersPage cart={cart}/>}/>
+      <Route path='checkout' element={<CheckoutPage cart={cart} loadCart={loadCart}/>}/>
+      <Route path='orders' element={<OrdersPage cart={cart} loadCart={loadCart}/>}/>
       <Route path='tracking/:orderId/:productId' element={<TrackingPage cart={cart}/>}/>
     </Routes>
   )

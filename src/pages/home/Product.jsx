@@ -5,9 +5,14 @@ import CheckmarkIcon from "../../assets/images/icons/checkmark.png";
 
 export function Product({product,loadCart}){
     const [quantity,setQuantity]=useState(1)
+    const [addedMessage,setaddedMessage]=useState(false)
     const addToCart=async()=>{
         await axios.post('/api/cart-items',{productId: product.id, quantity})
         await loadCart()
+        setaddedMessage(true)
+        setTimeout(()=>{
+          setaddedMessage(false)
+        },2000)
     }
     const selectQuantity=(event)=>{
         const quantitySelected=Number(event.target.value)
@@ -16,7 +21,8 @@ export function Product({product,loadCart}){
     return(
         <div className="product-container">
             <div className="product-image-container">
-              <img className="product-image" src={product.image} />
+              <img className="product-image" 
+              data-testid='product-image' src={product.image} />
             </div>
 
             <div className="product-name limit-text-to-2-lines">
@@ -26,6 +32,7 @@ export function Product({product,loadCart}){
             <div className="product-rating-container">
               <img
                 className="product-rating-stars"
+                data-testid='product-rating-stars-image'
                 src={`images/ratings/rating-${product.rating.stars * 10}.png`}
               />
               <div className="product-rating-count link-primary">
@@ -54,12 +61,13 @@ export function Product({product,loadCart}){
 
             <div className="product-spacer"></div>
 
-            <div className="added-to-cart">
+            <div className="added-to-cart" style={{opacity:addedMessage?1:0}}>
               <img src={CheckmarkIcon} />
               Added
             </div>
 
             <button className="add-to-cart-button button-primary" 
+            data-testid='add-to-cart-button'
             onClick={addToCart}>
               Add to Cart
             </button>

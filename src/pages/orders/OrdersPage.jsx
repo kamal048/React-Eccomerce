@@ -7,7 +7,7 @@ import { useState, useEffect,Fragment } from "react";
 import dayjs from "dayjs";
 import { formatMoney } from "../../utils/money";
 
-export function OrdersPage({ cart }) {
+export function OrdersPage({ cart,loadCart }) {
   const [orders, setOrders] = useState([]);
   useEffect(() => {
     const fetchOrders = async()=>{
@@ -50,6 +50,10 @@ export function OrdersPage({ cart }) {
 
                 <div className="order-details-grid">
                   {order.products.map((orderProduct) => {
+                    const addToCart=async()=>{
+                      await axios.post('/api/cart-items',{productId: orderProduct.product.id, quantity:1})
+                      await loadCart()
+                  }
                     return (
                       <Fragment key={orderProduct.product.id}>
                         <div className="product-image-container">
@@ -64,7 +68,7 @@ export function OrdersPage({ cart }) {
                             Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM D')}
                           </div>
                           <div className="product-quantity">Quantity:{orderProduct.quantity} </div>
-                          <button className="buy-again-button button-primary">
+                          <button onClick={addToCart} className="buy-again-button button-primary">
                             <img
                               className="buy-again-icon"
                               src={BuyAgainIcon}
